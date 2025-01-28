@@ -29,7 +29,7 @@ class OverallPortfolioCard extends StatelessWidget {
           Row(
             children: [
               const Text(
-                'Overall Portfolio',
+                'Todays Insights',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w600,
@@ -49,13 +49,14 @@ class OverallPortfolioCard extends StatelessWidget {
               ),
             ],
           ),
-          const Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TotalWidget(),
-              TotalWidget(),
-              TotalWidget(),
-              TotalWidget(),
+              TotalWidget(title:"Total Scans" ,content: "320.00",),
+              TotalWidget(title:"Total Recharges" ,content: "2000",),
+              TotalWidget(title:"Active Bus" ,content: "12",),
+              TotalWidget(title:"My Balance" ,content: "91,128.00",),
+             
             ],
           ),
         ],

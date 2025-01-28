@@ -34,7 +34,7 @@ class Header extends StatelessWidget {
                 width: context.width * 0.01,
               ),
               Text(
-                'Sun, 4 June 2023',
+                'Sun, 4 Jan 2024',
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!
@@ -84,7 +84,7 @@ class Header extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const Text(
-                            'Hnay Sameh Elshafey',
+                            'Samad ',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,
@@ -100,7 +100,7 @@ class Header extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        'han798348@gmail.com',
+                        'Samad@gmail.com',
                         style: TextStyle(
                           color: Colors.grey[300],
                           fontSize: 10.0,

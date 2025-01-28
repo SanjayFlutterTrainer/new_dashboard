@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:hidden_dash_new/utils/media_query_values.dart';
-import 'package:hidden_dash_new/widgets/pie_chart.dart';
 
 import '../../utils/colors.dart';
 import 'custom_button.dart';
@@ -15,278 +14,182 @@ class StockWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: context.width * 0.22,
-      // height: context.height,
-      padding: const EdgeInsets.symmetric(
-        vertical: 16.0,
-        horizontal: 22.0,
-      ),
-      transform: Matrix4.translationValues(0, -75, 0),
-      decoration: BoxDecoration(
-        color: lightBlack,
-        borderRadius: BorderRadius.circular(25.0),
-      ),
-      child: Column(
-        children: [
-          Row(
+    return DefaultTabController(
+      length: 3,
+      child: Container(
+        width: context.width * .20,
+        padding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+          horizontal: 22.0,
+        ),
+        transform: Matrix4.translationValues(0, -75, 0),
+        decoration: BoxDecoration(
+          color: lightBlack,
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: context.width * 0.04,
-                height: context.height * 0.07,
-                decoration: BoxDecoration(
-                  color: chocolateMelange,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: const Icon(
-                  Icons.data_exploration_rounded,
-                  color: primaryColor,
-                  size: 30.0,
-                ),
-              ),
-              SizedBox(
-                width: context.width * 0.01,
-              ),
-              Column(
+              Row(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Origin Game EA Inc.',
-                    style: TextStyle(
-                      color: Colors.grey[200],
-                      fontSize: 15.0,
+                  Container(
+                    width: context.width * 0.04,
+                    height: context.height * 0.07,
+                    decoration: BoxDecoration(
+                      color: chocolateMelange,
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    child: const Icon(
+                      Icons.credit_card,
+                      color: primaryColor,
+                      size: 30.0,
                     ),
                   ),
                   SizedBox(
-                    height: context.height * 0.01,
+                    width: context.width * 0.01,
                   ),
-                  const Text(
-                    '(OREA)',
-                    style: TextStyle(
-                      color: darkGrey,
-                      fontSize: 12.0,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: context.height * 0.03,
-          ),
-          SizedBox(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(18.0),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                child: Container(
-                  width: context.width * 0.15,
-                  // height: context.height  * 0.1,
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: darkGrey.withOpacity(0.1),
-                  ),
-                  child: Column(
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'My Portfolio',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(color: darkGrey),
+                        'Card Details',
+                        style: TextStyle(
+                          color: Colors.grey[200],
+                          fontSize: 15.0,
+                        ),
                       ),
                       SizedBox(
-                        height: context.height * 0.012,
+                        height: context.height * 0.01,
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            '\$',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.grey),
-                          ),
-                          SizedBox(
-                            width: context.width * 0.001,
-                          ),
-                          const Text(
-                            '8,089.00',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                      const Text(
+                        '(Frozen, Active, Blocked)',
+                        style: TextStyle(
+                          color: darkGrey,
+                          fontSize: 12.0,
+                        ),
                       ),
                     ],
                   ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: context.height * 0.02,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Official Website',
-                style: TextStyle(
-                  color: Colors.grey[200],
-                  fontSize: 12.0,
-                ),
+                ],
               ),
               SizedBox(
-                width: context.width * 0.007,
+                height: context.height * 0.03,
+              ),
+              TabBar(
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: darkGrey.withOpacity(0.2),
+                ),
+                labelColor: Colors.white,
+                unselectedLabelColor: darkGrey,
+                tabs: const [
+                  Tab(text: 'Frozen'),
+                  Tab(text: 'Active'),
+                  Tab(text: 'Blocked'),
+                ],
+              ),
+              SizedBox(
+                height: context.height * 0.03,
+              ),
+              SizedBox(
+                height: context.height * 0.5, // Constrain the height
+                child: TabBarView(
+                  children: [
+                    _buildCardList(context, 'Frozen'),
+                    _buildCardList(context, 'Active'),
+                    _buildCardList(context, 'Blocked'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardList(BuildContext context, String status) {
+    // Example list of cards
+    final List<Map<String, String>> cards = [
+      {
+        'cardNumber': '**** **** **** 1234',
+        'balance': '\$1,000.00',
+        'status': status,
+      },
+      {
+        'cardNumber': '**** **** **** 5678',
+        'balance': '\$2,500.00',
+        'status': status,
+      },
+      {
+        'cardNumber': '**** **** **** 9101',
+        'balance': '\$5,000.00',
+        'status': status,
+      },
+    ];
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: cards.length,
+      itemBuilder: (context, index) {
+        final card = cards[index];
+        return _buildCardItem(context, card);
+      },
+    );
+  }
+
+  Widget _buildCardItem(BuildContext context, Map<String, String> card) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: darkGrey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Card Number: ${card['cardNumber']}',
+                style: TextStyle(
+                  color: Colors.grey[200],
+                  fontSize: 14.0,
+                ),
               ),
               const Icon(
-                Icons.arrow_outward_outlined,
+                Icons.copy,
                 color: secondPrimaryColor,
                 size: 18.0,
               ),
             ],
           ),
           SizedBox(
-            height: context.height * 0.02,
+            height: context.height * 0.01,
           ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              const PieChartWidget(),
-              Container(
-                width: context.width * 0.235,
-                height: context.height * 0.235,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    width: 1.0,
-                    color: darkGrey.withOpacity(0.35),
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Share Holder',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: darkGrey),
-                    ),
-                    SizedBox(
-                      height: context.height * 0.02,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          '50',
-                          style: TextStyle(
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          width: context.width * 0.001,
-                        ),
-                        Text(
-                          '%',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: darkGrey, fontSize: 15.0),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: context.height * 0.02,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const CircleAvatar(
-                          backgroundColor: blue,
-                          radius: 3.0,
-                        ),
-                        SizedBox(
-                          width: context.width * 0.004,
-                        ),
-                        Text(
-                          'Promoter',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: darkGrey),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: context.width * 0.15,
-            padding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 18.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0),
-              color: darkBlack,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.access_time,
-                  size: 10.0,
-                  color: darkGrey,
-                ),
-                SizedBox(
-                  width: context.width * 0.015,
-                ),
-                Text(
-                  'OB Nov - 17 Nov',
-                  style: TextStyle(
-                    fontSize: 13.0,
-                    color: Colors.grey[400],
-                  ),
-                ),
-                SizedBox(
-                  width: context.width * 0.008,
-                ),
-                const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  size: 13.0,
-                  color: darkGrey,
-                ),
-              ],
+          Text(
+            'Balance: ${card['balance']}',
+            style: TextStyle(
+              color: Colors.grey[200],
+              fontSize: 14.0,
             ),
           ),
           SizedBox(
-            height: context.height * 0.015,
+            height: context.height * 0.01,
           ),
-          accountsWidget(context, 'Prev Close', '\$17.112.00'),
-          accountsWidget(context, '% Change', '+26%', isPercentage: true),
-          accountsWidget(context, 'Market Cap', '\$28 M USD'),
-          accountsWidget(context, 'PE Ratio', '14.285'),
-          SizedBox(
-            height: context.height * 0.02,
+          Text(
+            'Status: ${card['status']}',
+            style: TextStyle(
+              color: card['status'] == 'Active' ? Colors.green : Colors.red,
+              fontSize: 14.0,
+            ),
           ),
-          CustomOutlineButton(width: context.width * 0.15, title: 'Sell Stock'),
-          SizedBox(
-            height: context.height * 0.02,
-          ),
-          CustomButton(width: context.width * 0.15, title: 'Buy Stock'),
         ],
       ),
     );

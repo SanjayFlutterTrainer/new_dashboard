@@ -12,6 +12,7 @@ dependencies:
   google_fonts: ^6.2.1
   dashboard: ^0.0.4
   fl_chart: ^0.62.0
+  percent_indicator: ^4.2.4
 
 
 dev_dependencies:
